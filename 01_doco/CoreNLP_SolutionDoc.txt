@@ -1,0 +1,148 @@
+Dependencies
+
+-	Java
+
+
+
+
+
+Corpus
+
+https://www.caselaw.nsw.gov.au/browse-court/54a634063004de94513d827a
+
+
+
+-----Annotation------
+
+Quicker BRAT Annotation
+
+https://github.com/jiahaog/brat
+
+
+
+
+-----Steps to setup from the official release------
+
+This example goes over how to set up CoreNLP from the latest official release. This example will take you through downloading the package, and running a simple command-line invocation of CoreNLP.
+
+Prerequisites
+
+Java 8. The command java -version should complete successfully with a line like: java version “1.8.0_92”.
+Zip tool
+For following exactly the steps below: bash or a similar shell, and wget or a similar downloader.
+Steps
+
+Download the CoreNLP zip file at: http://stanfordnlp.github.io/CoreNLP/index.html#download:
+wget http://nlp.stanford.edu/software/stanford-corenlp-full-2018-01-31.zip
+Or using curl (what you get by default on macOS):
+
+curl -O http://nlp.stanford.edu/software/stanford-corenlp-full-2018-01-31.zip
+Unzip the release:
+unzip stanford-corenlp-full-2018-01-31.zip
+Enter the newly unzipped directory:
+cd stanford-corenlp-full-2018-01-31
+
+Set up your classpath. If you’re using an IDE, you should set the classpath in your IDE. If you are using bash or a bash-like shell, the following will work:::
+
+for file in `find . -name "*.jar"`; do export
+CLASSPATH="$CLASSPATH:`realpath $file`"; done
+
+If you’ll be using CoreNLP frequently, the below line is a useful line to have in your ~/.bashrc (or equivalent) file, replacing the directory /path/to/corenlp/ with the appropriate path to where you unzipped CoreNLP:::
+
+for file in `find /path/to/corenlp/ -name "*.jar"`; do export
+CLASSPATH="$CLASSPATH:`realpath $file`"; done
+
+Try it out! For example, the following will make a simple text file to annotate, and run CoreNLP over this file. The output will be saved to input.txt.out as a JSON file. Note that running all the CoreNLP annotators in the default annotation pipeline requires quite a bit of memory. You should give it at least 3GB (-mx3g) in most cases:::
+
+echo "the quick brown fox jumped over the lazy dog" > input.txt
+java -mx3g edu.stanford.nlp.pipeline.StanfordCoreNLP -outputFormat json -file input.txt
+
+
+##had to install homebrew, then a specific instance of 'realpath' to get the 'realpath' to work.
+https://brew.sh
+http://blog.ivansiu.com/blog/2014/05/01/os-x-get-full-path-of-file-using-realpath/
+
+
+If you're using -cp "*", you should be running this command in the directory where you installed StanfordCoreNLP (e.g. /home/stanford-corenlp-full-2015-12-09/).
+
+Make sure that do one of the following
+
+You run the command inside the corenlp installation path
+You change -cp "*" to the installation path (i.e. -cp "/home/stanford-corenlp-full-2015-12-09/")
+You add the installation path to the CLASSPATH environment variable
+You can find more info here: https://stanfordnlp.github.io/CoreNLP/cmdline.html
+
+
+java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLP -outputFormat json -file input.txt
+
+java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLP -outputFormat xml -file input.txt
+
+
+
+
+
+------Python Wrapper for CoreNLP------
+
+https://stackoverflow.com/questions/39410282/coreference-resolution-in-python-nltk-using-stanford-corenlp
+As mentioned by @Igor You can try the python wrapper implemented in this GitHub repo: https://github.com/dasmith/stanford-corenlp-python
+
+This repo contains two main files: corenlp.py client.py
+
+Perform the following changes to get coreNLP working:
+
+In the corenlp.py, change the path of the corenlp folder. Set the path where your local machine contains the corenlp folder and add the path in line 144 of corenlp.py
+
+if not corenlp_path:
+    corenlp_path = <path to the corenlp file>
+The jar file version number in "corenlp.py" is different. Set it according to the corenlp version that you have. Change it at line 135 of corenlp.py
+
+jars = ["stanford-corenlp-3.4.1.jar",
+                "stanford-corenlp-3.4.1-models.jar",
+                "joda-time.jar",
+                "xom.jar",
+                "jollyday.jar"]
+In this replace 3.4.1 with the jar version which you have downloaded.
+
+Run the command:
+
+python corenlp.py
+This will start a server
+
+Now run the main client program
+
+python client.py
+This provides a dictionary and you can access the coref using 'coref' as the key:
+
+For example: John is a Computer Scientist. He likes coding.
+
+{
+     "coref": [[[["a Computer Scientist", 0, 4, 2, 5], ["John", 0, 0, 0, 1]], [["He", 1, 0, 0, 1], ["John", 0, 0, 0, 1]]]]
+}
+I have tried this on Ubuntu 16.04. Use java version 7 or 8.
+
+
+----ANOTHER PYTHON INTERFACE-----
+https://www.khalidalnajjar.com/setup-use-stanford-corenlp-server-python/
+
+
+---Another----
+https://github.com/dasmith/stanford-corenlp-python
+
+
+
+---TROUBLESHOOTING CLASSPATH-----
+
+export STANFORD_MODELS=<PATH_TO>/stanford-ner-2015-04-20/classifiers
+export CLASSPATH=<PATH_TO>/stanford-ner-2015-04-20/stanford-ner.jar
+
+java -cp stanford-ner.jar
+
+
+
+---BRAT STANDOFF TO Core NLP----
+
+https://gist.github.com/thatguysimon/6caa622be083f97b8c5c9a10478ba058
+
+---BRAT Docker----
+
+docker pull cassj/brat

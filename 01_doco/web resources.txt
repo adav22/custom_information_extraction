@@ -1,0 +1,19 @@
+
+Complete guide to build your own Named Entity Recognizer with Python
+http://nlpforhackers.io/named-entity-extraction/
+
+Training a NER System Using a Large Dataset
+https://nlpforhackers.io/training-ner-large-dataset/
+
+7. Extracting Information from Text
+http://www.nltk.org/book/ch07.html
+
+
+https://nlp.stanford.edu/nlp/javadoc/javanlp/edu/stanford/nlp/ie/crf/CRFClassifier.html
+
+https://nlp.stanford.edu/nlp/javadoc/javanlp/edu/stanford/nlp/ie/NERFeatureFactory.html
+
+
+
+
+https://robots.thoughtbot.com/named-entity-recognition
